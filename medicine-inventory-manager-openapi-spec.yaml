@@ -1,0 +1,231 @@
+swagger: "2.0"
+info:
+  title: Medicine Inventory Manager API
+  description: RestAPI for Medicine Inventory Manager.
+  version: 1.0.0
+
+host: calculator-api.apigateway.hw-3-417211.cloud.goog
+basePath: /
+schemes:
+  - https
+  - http
+
+paths:
+  /medicine:
+    post:
+      operationId: createMedicine
+      summary: Create a new medicine.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: requestBody
+          in: body
+          required: true
+          description: The details of the medicine to create
+          schema:
+            $ref: '#/definitions/CreateMedicine'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GetCreatedOneMedicine'
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/add
+
+  /medicine/{id}:
+    get:
+      operationId: getMedicine
+      summary: Get an existing medicine.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to get
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GetOneMedicine'
+        404:
+          description: Not Found
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/div
+    put:
+      operationId: updateMedicine
+      summary: Update an existing medicine.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to update
+        - name: requestBody
+          in: body
+          required: true
+          description: The details of the medicine to update
+          schema:
+            $ref: '#/definitions/UpdateMedicine'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GetOneMedicine'
+        404:
+          description: Not Found
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/sub
+    delete:
+      operationId: deleteMedicine
+      summary: Delete an existing medicine.
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to delete
+      responses:
+        204:
+          description: No Content
+        404:
+          description: Not Found
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul
+
+  /medicine/all:
+    get:
+      operationId: getAllMedicines
+      summary: Get all medicines.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: status
+          in: query
+          required: false
+          type: string
+          description: The status of the medicines to get ("expired" or "will-expire-soon" or "not-expired")
+          enum:
+            - expired
+            - will-expire-soon
+            - not-expired
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GetAllMedicine'
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul
+
+
+definitions:
+  CreateMedicine:
+    type: object
+    required:
+      - name
+      - description
+      - productionDate
+      - expiryDate
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      productionDate:
+        type: string
+        format: date
+      expiryDate:
+        type: string
+        format: date
+  GetCreatedOneMedicine:
+    type: object
+    required:
+      - id
+      - name
+      - description
+      - productionDate
+      - expiryDate
+      - storedAtTimestamp
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      productionDate:
+        type: string
+        format: date
+      expiryDate:
+        type: string
+        format: date
+      storedAtTimestamp:
+        type: string
+        format: date-time
+  UpdateMedicine:
+    type: object
+    required:
+      - name
+      - description
+      - productionDate
+      - expiryDate
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      productionDate:
+        type: string
+        format: date
+      expiryDate:
+        type: string
+        format: date
+  GetOneMedicine:
+    type: object
+    required:
+      - id
+      - name
+      - description
+      - productionDate
+      - expiryDate
+      - storedAtTimestamp
+      - lastUpdatedAtTimestamp
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      productionDate:
+        type: string
+        format: date
+      expiryDate:
+        type: string
+        format: date
+      storedAtTimestamp:
+        type: string
+        format: date-time
+      lastUpdatedAtTimestamp:
+        type: string
+        format: date-time
+  GetAllMedicine:
+    type: array
+    items:
+      $ref: '#/definitions/GetOneMedicine'
