@@ -10,6 +10,14 @@ import('node-fetch').then(nodeFetch => {
   fetch = nodeFetch;
 });
 
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 const schema = buildSchema(`
 
   type Medicine {
@@ -64,14 +72,6 @@ const root = {
   }
 }
 
-
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
