@@ -2,10 +2,9 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.0.0
+  version: 1.1.1
 
-# TODO Change to the address of the API Gateway
-host: calculator-api.apigateway.hw-3-417211.cloud.goog
+host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
 schemes:
   - https
@@ -35,6 +34,32 @@ paths:
       x-google-backend:
       # TODO Replace the value below with the address the service.
         address: https://us-central1-hw-3-417211.cloudfunctions.net/add
+    get:
+      operationId: getAllMedicines
+      summary: Get all medicines.
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: status
+          in: query
+          required: false
+          type: string
+          description: The status of the medicines to get ("expired" or "will-expire-soon" or "not-expired")
+          enum:
+            - expired
+            - will-expire-soon
+            - not-expired
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/GetAllMedicine'
+      x-google-backend:
+      # TODO Replace the value below with the address the service.
+        address: https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app
+
 
   /medicine/{id}:
     get:
@@ -105,35 +130,7 @@ paths:
           description: Not Found
       x-google-backend:
       # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul
-
-  /medicine/all:
-    get:
-      operationId: getAllMedicines
-      summary: Get all medicines.
-      produces:
-        - application/json
-      consumes:
-        - application/json
-      parameters:
-        - name: status
-          in: query
-          required: false
-          type: string
-          description: The status of the medicines to get ("expired" or "will-expire-soon" or "not-expired")
-          enum:
-            - expired
-            - will-expire-soon
-            - not-expired
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: '#/definitions/GetAllMedicine'
-      x-google-backend:
-      # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul
-
+        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul    
 
 definitions:
   CreateMedicine:
@@ -220,6 +217,12 @@ definitions:
       expiryDate:
         type: string
         format: date
+      expiryStatus:
+        type: string
+        enum:
+          - Expired
+          - Will Expire Soon
+          - Not Expired
       storedAtTimestamp:
         type: string
         format: date-time
