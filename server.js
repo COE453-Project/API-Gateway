@@ -72,6 +72,16 @@ const root = {
   }
 }
 
+app.use(
+  '/',
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: {
+      defaultQuery: '{\n  hello\n}\n',
+    },
+  })
+);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
