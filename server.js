@@ -45,7 +45,7 @@ const schema = buildSchema(`
 
 const root = {
   getMedicines: async () => {
-    const response = await fetch('https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app/');
+    const response = await fetch('https://api-gateway-olz2xjbmza-uc.a.run.app');
     const data = await response.json();
     return data;
   },
