@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
+const cors = require('cors');
 
 let fetch;
 
@@ -62,6 +63,12 @@ const root = {
     medicines = medicines.filter(medicine => medicine.id !== id);
   }
 }
+
+app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
