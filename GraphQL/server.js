@@ -2,7 +2,12 @@ const express = require('express');
 const app = express();
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
-const fetch = require('node-fetch');
+
+let fetch;
+
+import('node-fetch').then(nodeFetch => {
+  fetch = nodeFetch;
+});
 
 const schema = buildSchema(`
 
@@ -25,7 +30,7 @@ const schema = buildSchema(`
   type Mutation {
     addMedicine(name: String, description: String, productionDate: String, expiryDate: String): Medicine
     updateMedicine(id: Int, name: String, description: String, productionDate: String, expiryDate: String): Medicine
-    deleteMedicine(id: Int)
+    deleteMedicine(id: Int): Boolean
   }
 `);
 
