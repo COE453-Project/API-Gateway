@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.1.1
+  version: 1.2.0
 
 host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
@@ -32,8 +32,7 @@ paths:
           schema:
             $ref: '#/definitions/GetCreatedOneMedicine'
       x-google-backend:
-      # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/add
+        address: https://backend-create-medicine-olz2xjbmza-uc.a.run.app
     get:
       operationId: getAllMedicines
       summary: Get all medicines.
@@ -57,7 +56,6 @@ paths:
           schema:
             $ref: '#/definitions/GetAllMedicine'
       x-google-backend:
-      # TODO Replace the value below with the address the service.
         address: https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app
 
 
@@ -81,8 +79,7 @@ paths:
         404:
           description: Not Found
       x-google-backend:
-      # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/div
+        address: https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine
     put:
       operationId: updateMedicine
       summary: Update an existing medicine.
@@ -110,8 +107,7 @@ paths:
         404:
           description: Not Found
       x-google-backend:
-      # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/sub
+        address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app
     delete:
       operationId: deleteMedicine
       summary: Delete an existing medicine.
@@ -129,8 +125,7 @@ paths:
         404:
           description: Not Found
       x-google-backend:
-      # TODO Replace the value below with the address the service.
-        address: https://us-central1-hw-3-417211.cloudfunctions.net/mul    
+        address: https://backend-delete-medicine-olz2xjbmza-uc.a.run.app
 
 definitions:
   CreateMedicine:
