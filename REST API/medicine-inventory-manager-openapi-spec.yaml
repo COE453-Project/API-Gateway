@@ -4,6 +4,7 @@ info:
   description: RestAPI for Medicine Inventory Manager.
   version: 1.0.0
 
+# TODO Change to the address of the API Gateway
 host: calculator-api.apigateway.hw-3-417211.cloud.goog
 basePath: /
 schemes:
