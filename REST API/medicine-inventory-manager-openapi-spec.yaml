@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.2.0
+  version: 1.2.1
 
 host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
@@ -47,6 +47,7 @@ paths:
           type: string
           description: The status of the medicines to get ("expired" or "will-expire-soon" or "not-expired")
           enum:
+            - all
             - expired
             - will-expire-soon
             - not-expired
