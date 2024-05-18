@@ -26,13 +26,13 @@ const schema = buildSchema(`
     description: String
     productionDate: String
     expiryDate: String
-    stored: String
-    lastUpdate: String
-    status: String
+    storedAtTimestamp: String
+    lastUpdatedTimestamp: String
+    expiryStatus: String
   }
 
   type Query {
-    getMedicines: [Medicine]
+    getMedicines(status: String): [Medicine]
     oneMedicine(id: Int): Medicine
   }
 
@@ -45,9 +45,69 @@ const schema = buildSchema(`
 
 const root = {
   
-  async getMedicines(){
+  async getMedicines({status}){
     try {
-      const response = await got('https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app/');
+      const response = await got('https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app/?status=' + status);
+      const data = JSON.parse(response.body);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+
+  async oneMedicine({ id }){
+    try {
+      console.log(id);
+      console.log("Hello there")
+      const response = await got('https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine/'+id);
+      const data = JSON.parse(response.body);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+
+  async addMedicine({name, description, productionDate, expiryDate}){
+    console.log(name);
+    console.log(description);
+    console.log(productionDate);
+    console.log(expiryDate);
+    try {
+      const response = await got.post('https://backend-create-medicine-olz2xjbmza-uc.a.run.app', {
+        json: {
+          name: name,
+          description: description,
+          productionDate: productionDate,
+          expiryDate: expiryDate
+        }
+      });
+      const data = JSON.parse(response.body);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+
+  async updateMedicine({id, name, description, productionDate, expiryDate}){
+    try {
+      const response = await got.put('https://backend-update-medicine-olz2xjbmza-uc.a.run.app/'+id, {
+        json: {
+          name: name,
+          description: description,
+          productionDate: productionDate,
+          expiryDate: expiryDate
+        }
+      });
+      const data = JSON.parse(response.body);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+
+  async deleteMedicine({id}){
+    try {
+      const response = await got.delete('https://backend-delete-medicine-olz2xjbmza-uc.a.run.app/'+id);
       const data = JSON.parse(response.body);
       return data;
     } catch (error) {
