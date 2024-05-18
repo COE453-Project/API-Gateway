@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.2.1
+  version: 1.2.2
 
 host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
@@ -58,6 +58,14 @@ paths:
             $ref: '#/definitions/GetAllMedicine'
       x-google-backend:
         address: https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app
+    options:
+      operationId: corsMedicine
+      responses:
+        200:
+          description: OK
+      x-google-backend:
+        address: https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app
+
 
 
   /medicine/{id}:
