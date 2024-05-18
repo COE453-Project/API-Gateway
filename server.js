@@ -3,11 +3,11 @@ const app = express();
 const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 const cors = require('cors');
+const { createHandler } = require("graphql-http/lib/use/express");
 
-let fetch;
-
-import('node-fetch').then(nodeFetch => {
-  fetch = nodeFetch;
+let got;
+import('got').then((gotModule) => {
+  got = gotModule.default || gotModule;
 });
 
 app.use(cors({
@@ -32,7 +32,7 @@ const schema = buildSchema(`
   }
 
   type Query {
-    medicines: [Medicine]
+    getMedicines: [Medicine]
     oneMedicine(id: Int): Medicine
   }
 
@@ -44,45 +44,27 @@ const schema = buildSchema(`
 `);
 
 const root = {
-  getMedicines: async () => {
-    const response = await fetch('https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app/');
-    const data = await response.json();
-    return data;
-  },
-  getOneMedicine: ({id}) => {
-    return medicines.find(medicine => medicine.id === id);
-  },
-  addMedicine: ({name, description, productionDate, expiryDate}) => {
-    const id = medicines.length + 1;
-    const medicine = {id, name, description, productionDate, expiryDate, stored: 'yes', lastUpdate: new Date().toISOString(), status: 'active'};
-    medicines.push(medicine);
-    return medicine;
-  },
-  updateMedicine: ({id, name, description, productionDate, expiryDate}) => {
-    const medicine = medicines.find(medicine => medicine.id === id);
-    medicine.name = name;
-    medicine.description = description;
-    medicine.productionDate = productionDate;
-    medicine.expiryDate = expiryDate;
-    medicine.lastUpdate = new Date().toISOString();
-    return medicine;
-  },
-  deleteMedicine: ({id}) => {
-    medicines = medicines.filter(medicine => medicine.id !== id);
+  
+  async getMedicines(){
+    try {
+      const response = await got('https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app/');
+      const data = JSON.parse(response.body);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
+
 }
 
-app.use(
-  '/',
-  graphqlHTTP({
+app.all(
+  "/",
+  createHandler({
     schema: schema,
     rootValue: root,
-    graphiql: {
-      defaultQuery: '{\n  hello\n}\n',
-    },
   })
-);
+)
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log('Server is running on port 3000');
 });
