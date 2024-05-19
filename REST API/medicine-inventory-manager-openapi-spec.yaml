@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.2.3
+  version: 1.3.0
 
 host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
@@ -11,7 +11,7 @@ schemes:
   - http
 
 paths:
-  /medicine:
+  /addMedicine:
     post:
       operationId: createMedicine
       summary: Create a new medicine.
@@ -33,6 +33,18 @@ paths:
             $ref: '#/definitions/GetCreatedOneMedicine'
       x-google-backend:
         address: https://backend-create-medicine-olz2xjbmza-uc.a.run.app
+    options:
+      operationId: corsAddMedicine
+      responses:
+        200:
+          description: OK
+        204:
+          description: No Content
+      x-google-backend:
+        address: https://backend-create-medicine-olz2xjbmza-uc.a.run.app
+
+
+  /getAllMedicines:
     get:
       operationId: getAllMedicines
       summary: Get all medicines.
@@ -70,7 +82,7 @@ paths:
 
 
 
-  /medicine/{id}:
+  /getOneMedicine/{id}:
     get:
       operationId: getMedicine
       summary: Get an existing medicine.
@@ -91,6 +103,18 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine
+    options:
+      operationId: corsGetOneMedicine
+      responses:
+        200:
+          description: OK
+        204:
+          description: No Content
+      x-google-backend:
+        address: https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine
+
+
+  /updateMedicine/{id}:
     put:
       operationId: updateMedicine
       summary: Update an existing medicine.
@@ -119,6 +143,18 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app
+    options:
+      operationId: corsUpdateMedicine
+      responses:
+        200:
+          description: OK
+        204:
+          description: No Content
+      x-google-backend:
+        address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app
+
+
+  /deleteMedicine/{id}:
     delete:
       operationId: deleteMedicine
       summary: Delete an existing medicine.
@@ -135,6 +171,15 @@ paths:
           description: No Content
         404:
           description: Not Found
+      x-google-backend:
+        address: https://backend-delete-medicine-olz2xjbmza-uc.a.run.app
+    options:
+      operationId: corsDeleteMedicine
+      responses:
+        200:
+          description: OK
+        204:
+          description: No Content
       x-google-backend:
         address: https://backend-delete-medicine-olz2xjbmza-uc.a.run.app
 
