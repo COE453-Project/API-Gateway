@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: Medicine Inventory Manager API
   description: RestAPI for Medicine Inventory Manager.
-  version: 1.3.0
+  version: 1.3.1
 
 host: medicine-inventory-manager-api-gateway-dp55p9wv.ue.gateway.dev
 basePath: /
@@ -35,6 +35,13 @@ paths:
         address: https://backend-create-medicine-olz2xjbmza-uc.a.run.app
     options:
       operationId: corsAddMedicine
+      parameters:
+        - name: requestBody
+          in: body
+          required: true
+          description: The details of the medicine to create
+          schema:
+            $ref: '#/definitions/CreateMedicine'
       responses:
         200:
           description: OK
@@ -81,7 +88,6 @@ paths:
         address: https://backend-get-all-medicines-olz2xjbmza-uc.a.run.app
 
 
-
   /getOneMedicine/{id}:
     get:
       operationId: getMedicine
@@ -103,8 +109,15 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine
+        path_translation: APPEND_PATH_TO_ADDRESS
     options:
       operationId: corsGetOneMedicine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to get
       responses:
         200:
           description: OK
@@ -143,8 +156,21 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
     options:
       operationId: corsUpdateMedicine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to get
+        - name: requestBody
+          in: body
+          required: true
+          description: The details of the medicine to update
+          schema:
+            $ref: '#/definitions/UpdateMedicine'
       responses:
         200:
           description: OK
@@ -173,8 +199,15 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://backend-delete-medicine-olz2xjbmza-uc.a.run.app
+        path_translation: APPEND_PATH_TO_ADDRESS
     options:
       operationId: corsDeleteMedicine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The ID of the medicine to get
       responses:
         200:
           description: OK
