@@ -109,7 +109,6 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://us-central1-coe453-project-423412-f0.cloudfunctions.net/Get-One-Medicine
-        path_translation: APPEND_PATH_TO_ADDRESS
     options:
       operationId: corsGetOneMedicine
       parameters:
@@ -155,8 +154,7 @@ paths:
         404:
           description: Not Found
       x-google-backend:
-        address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app
-        path_translation: APPEND_PATH_TO_ADDRESS
+        address: https://backend-update-medicine-olz2xjbmza-uc.a.run.app/
     options:
       operationId: corsUpdateMedicine
       parameters:
@@ -199,7 +197,6 @@ paths:
           description: Not Found
       x-google-backend:
         address: https://backend-delete-medicine-olz2xjbmza-uc.a.run.app
-        path_translation: APPEND_PATH_TO_ADDRESS
     options:
       operationId: corsDeleteMedicine
       parameters:
