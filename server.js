@@ -10,9 +10,7 @@ import('got').then((gotModule) => {
   got = gotModule.default || gotModule;
 });
 
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
